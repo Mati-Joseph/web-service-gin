@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +30,15 @@ func main() {
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
 
-	router.Run("localhost:8080")
+	// Get port from environment variable (Render provides this), fallback to 8080 locally
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	// Bind to 0.0.0.0 so external traffic and health checks can reach it
+	router.Run("0.0.0.0:" + port)
+
 }
 
 // A ping for the server.
