@@ -23,11 +23,20 @@ var albums = []album{
 
 func main() {
 	router := gin.Default()
+
+	router.GET("/ping", ping)
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
 
 	router.Run("localhost:8080")
+}
+
+// A ping for the server.
+func ping(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Hello. Wantam... pong pong pong..🏓",
+	})
 }
 
 // getAlbums returns all albums as JSON
